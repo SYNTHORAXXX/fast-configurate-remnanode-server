@@ -14,8 +14,11 @@ fi
 echo "---    ---"
 
 ## 1.  IPSET  
-echo "[*]  ipset  iptables-persistent..."
-apt update && apt install -y ipset iptables-persistent
+## 1. Настройка IPSET и блокировка
+echo "[*] Установка ipset и iptables-persistent (в тихом режиме)..."
+export DEBIAN_FRONTEND=noninteractive
+export DEBIAN_PRIORITY=critical
+apt-get update && apt-get install -yq ipset iptables-persistent
 
 echo "[*]  ipset  UA ..."
 #  ,     
