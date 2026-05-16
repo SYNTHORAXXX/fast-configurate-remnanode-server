@@ -11,16 +11,16 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-echo "---    ---"
+ech
 
 ## 1.  IPSET  
 ## 1. Настройка IPSET и блокировка
-echo "[*] Установка ipset и iptables-persistent (в тихом режиме)..."
+echo "[*] Установка ipset и iptables-persistent"
 export DEBIAN_FRONTEND=noninteractive
 export DEBIAN_PRIORITY=critical
 apt-get update && apt-get install -yq ipset iptables-persistent
 
-echo "[*]  ipset  UA ..."
+echo "ipset  UA ..."
 #  ,     
 ipset create UA hash:net 2>/dev/null || ipset flush UA
 
@@ -45,7 +45,7 @@ ipset save > /etc/ipset.conf
 netfilter-persistent save
 
 ## 2.   
-echo "[*]    ..."
+echo "крон задача"
 cat > /etc/cron.weekly/update-ua-ipset << 'EOF'
 #!/bin/bash
 ipset flush UA
@@ -57,7 +57,7 @@ EOF
 chmod +x /etc/cron.weekly/update-ua-ipset
 
 ## 3.  Logrotate  Docker
-echo "[*]  logrotate  Docker ..."
+echo "ротация логов"
 cat > /etc/logrotate.d/docker-remnanode << 'EOF'
 /var/lib/docker/containers/*/*.log {
     daily
